@@ -61,11 +61,25 @@ public class TicTacToeModel {
         int row = square.getRow();
         int col = square.getCol();
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+        boolean markMade = false;
 
-        return false;
+        if ( (isValidSquare(row, col)) && (!isSquareMarked(row, col)) ) {
+
+            if (xTurn) {
+                grid[row][col] = Mark.X;
+                firePropertyChange(TicTacToeController.SET_SQUARE_X, this, square);
+                xTurn = false;
+            }
+            else {
+                grid[row][col] = Mark.O;
+                firePropertyChange(TicTacToeController.SET_SQUARE_O, this, square);
+                xTurn = true;
+            }
+            markMade = true;
+
+        }
+
+        return markMade;
 
     }
 
@@ -73,15 +87,18 @@ public class TicTacToeModel {
 
         // This method should return TRUE if the specified location is within bounds of the grid
 
-        return false; // this is a stub; delete it later!
-
+        boolean isValidSquare = false;
+        if( (row >= 0 && row < size) && (col >= 0 && col < size) ) {
+            isValidSquare = true;
     }
 
     private boolean isSquareMarked(int row, int col) {
 
-        // This method should return TRUE if the square at the specified location is already marked
-
-        return false; // this is a stub; delete it later!
+            boolean isSquareMarked = false;
+            if( (getMark(row, col) == Mark.X) || (getMark(row, col) == Mark.O) ) {
+                isSquareMarked = true;
+            }
+            return isSquareMarked;
 
     }
 
@@ -100,7 +117,18 @@ public class TicTacToeModel {
         // should use "isMarkWin()" to see if X or O is the winner, and "isTie()" to see if the game
         // is a TIE.  If neither condition applies, return a default value of NONE.
         //
-
+            if (isMarkWin(Mark.X)) {
+                return Result.X;
+            }
+            else if (isMarkWin(Mark.O)) {
+                return Result.O;
+            }
+            else if (isTie()) {
+                return Result.TIE;
+            }
+            else {
+                return Result.NONE;
+            }
         return Result.NONE;
 
     }
@@ -112,8 +140,43 @@ public class TicTacToeModel {
         // winner.  (Hint: this method must check for complete rows, columns, and diagonals, using
         // an algorithm which will work for all possible grid sizes!)
         //
+            boolean isMarkWin = false;
+            String userMarks = "";
+            int count = size - 1;
+            String mark1 = "", mark2 = "", mark3 = "",mark4 = "";
 
-        return false; // this is a stub; delete it later!
+            for (int j = 0; j < size; ++j) {
+                userMarks += mark.toString();
+            }
+
+            for (int row = 0; row < size; ++row) {
+
+                for (int col = 0; col < size; ++col) {
+                    mark1 += (grid[row][col]).toString();
+                    mark2 += (grid[col][row]).toString();
+                }
+
+                mark3 += (grid[row][row]).toString();
+                mark4 += (grid[row][count]).toString();
+                count--;
+
+                if ( ( userMarks.equals(mark1) ) || ( userMarks.equals(mark2) ) ||
+                        ( userMarks.equals(mark3) ) || ( userMarks.equals(mark4) ) ) {
+
+                    isMarkWin = true;
+                    break;
+                }
+
+                else {
+                    isMarkWin = false;
+                }
+
+                mark1 = "";
+                mark2 = "";
+
+            }
+
+            return isMarkWin;
 
     }
 
@@ -122,8 +185,24 @@ public class TicTacToeModel {
         //
         // This method should check the squares of the grid to see if the game is a tie.
         //
+            boolean isTie = false;
+            int count = 0;
 
-        return false; // this is a stub; delete it later!
+            for (int row = 0; row < size; ++row) {
+                for (int col = 0; col < size; ++col) {
+
+                    if (isSquareMarked(row, col)) {
+                        count++;
+                    }
+
+                }
+            }
+
+            if ( (isMarkWin(Mark.X) == false) && (isMarkWin(Mark.O) == false) && (count == size * size) ) {
+                isTie = true;
+            }
+
+            return isTie;
 
     }
 

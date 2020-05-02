@@ -32,12 +32,33 @@ public class TicTacToeController implements PropertyChangeListener {
         // of the game; if the mark that was just made has ended the game, the Result value should
         // be displayed in the View (using its "setResult()" method).
         //
+        if ( model.getResult() == TicTacToeModel.Result.NONE ) {
 
-        // setModelProperty("Mark", square);
+            if ( model.setMark(square) && model.isXTurn() ) {
+                setModelProperty(SET_SQUARE_X, square);
+            }
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+            else if ( model.setMark(square) && !model.isXTurn() ) {
+                setModelProperty(SET_SQUARE_O, square);
+            }
+
+            if ( model.getResult() == TicTacToeModel.Result.TIE )  {
+                view.setResult(TicTacToeModel.Result.TIE.toString());
+            }
+
+            else if ( model.getResult() == TicTacToeModel.Result.X ) {
+                view.setResult(TicTacToeModel.Result.X.toString());
+            }
+
+            else if ( model.getResult() == TicTacToeModel.Result.O ) {
+                view.setResult(TicTacToeModel.Result.O.toString());
+            }
+
+            else {
+                view.setResult("");
+            }
+
+        }
 
     }
 
