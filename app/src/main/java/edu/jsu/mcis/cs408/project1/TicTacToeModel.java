@@ -36,11 +36,15 @@ public class TicTacToeModel {
         this.size = size;
         this.xTurn = true;
 
-        /* Create grid (width x width) as a 2D Mark array */
+        grid = new Mark[size][size];
 
-        //
-        // INSERT YOUR CODE HERE
-        //
+        for (int row = 0; row < size; ++row) {
+
+            for (int col = 0; col < size; ++col) {
+
+                grid[row][col] = Mark.EMPTY;
+            }
+        }
 
     }
 
@@ -90,6 +94,8 @@ public class TicTacToeModel {
         boolean isValidSquare = false;
         if( (row >= 0 && row < size) && (col >= 0 && col < size) ) {
             isValidSquare = true;
+        }
+        return isValidSquare;
     }
 
     private boolean isSquareMarked(int row, int col) {
@@ -129,7 +135,6 @@ public class TicTacToeModel {
             else {
                 return Result.NONE;
             }
-        return Result.NONE;
 
     }
 
